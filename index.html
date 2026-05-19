@@ -1,49 +1,206 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learning Languages</title>
+    <title>LinguaPath</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <script src="script.js"></script>
-    <!-- Navbar -->
-    <header>
-        <h1>🌍 Learning Languages</h1>
-        <nav>
-            <a href="#">Home</a>
-            <a href="#">Courses</a>
-            <a href="#">About</a>
-        </nav>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h2>Belajar Bahasa Dunia dengan Mudah</h2>
-        <p>Pilih bahasa yang ingin kamu pelajari dan mulai sekarang!</p>
-    </section>
+<!-- ═══════════════════════════════════════════
+     START PAGE
+════════════════════════════════════════════ -->
+<div id="startPage" class="page active">
+    <div class="start-bg">
+        <h1 class="welcome-script">LinguaPath</h1>
+        <p class="welcome-sub">Hello • Bonjour • Hola • こんにちは • 안녕하세요</p>
 
-    <!-- Language List -->
-    <section class="languages">
-        <div class="card">
-            <h3>🇬🇧 English</h3>
-            <p>Belajar bahasa Inggris dari dasar</p>
-            <button>Mulai</button>
+        <div class="feature-grid">
+            <div class="feature-card">🗺️<span>12 Languages</span></div>
+            <div class="feature-card">📚<span>11 Topics</span></div>
+            <div class="feature-card">🎤<span>Speaking</span></div>
+            <div class="feature-card">⭐<span>Track Progress</span></div>
         </div>
 
-        <div class="card">
-            <h3>🇯🇵 Japanese</h3>
-            <p>Pelajari Hiragana, Katakana, dan Kanji</p>
-            <button>Mulai</button>
+        <button class="start-btn" onclick="goToMenu()">Start Learning</button>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     MENU PAGE — CHOOSE LANGUAGE
+════════════════════════════════════════════ -->
+<div id="menuPage" class="page">
+    <div class="menu-header">
+        <h1 class="title">I want to learn</h1>
+        <p class="menu-sub">Choose your target language</p>
+    </div>
+
+    <div class="card">
+        <h3 class="card-label">POPULAR</h3>
+        <div class="lang-item" onclick="selectLanguage('English','gb')">
+            <img src="https://flagcdn.com/w40/gb.png"><span>English</span>
+        </div>
+        <div class="lang-item" onclick="selectLanguage('Spanish','es')">
+            <img src="https://flagcdn.com/w40/es.png"><span>Español</span>
+        </div>
+        <div class="lang-item" onclick="selectLanguage('French','fr')">
+            <img src="https://flagcdn.com/w40/fr.png"><span>Français</span>
+        </div>
+        <div class="lang-item" onclick="selectLanguage('German','de')">
+            <img src="https://flagcdn.com/w40/de.png"><span>Deutsch</span>
+        </div>
+        <div class="lang-item" onclick="selectLanguage('Japanese','jp')">
+            <img src="https://flagcdn.com/w40/jp.png"><span>日本語</span>
+        </div>
+        <div class="lang-item" onclick="selectLanguage('Korean','kr')">
+            <img src="https://flagcdn.com/w40/kr.png"><span>한국어</span>
+        </div>
+        <div class="lang-item" onclick="selectLanguage('Chinese','cn')">
+            <img src="https://flagcdn.com/w40/cn.png"><span>中文</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3 class="card-label">MORE LANGUAGES</h3>
+        <div id="allLanguages"></div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     COURSE PAGE — 11 CATEGORIES
+════════════════════════════════════════════ -->
+<div id="coursePage" class="page">
+    <div class="top-bar">
+        <button class="icon-btn" onclick="goToMenu()">←</button>
+        <span id="selectedLang" class="top-lang">English</span>
+        <button class="icon-btn" onclick="openResults()">📊</button>
+    </div>
+
+    <div class="stats">
+        <div class="stat-box">
+            <h2 id="progress">0%</h2>
+            <p>Progress</p>
+        </div>
+        <div class="stat-box">
+            <h2>11</h2>
+            <p>Topics</p>
+        </div>
+        <div class="stat-box">
+            <h2 id="lessonCount">0/66</h2>
+            <p>Lessons</p>
+        </div>
+    </div>
+
+    <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+    </div>
+
+    <div class="category-grid" id="categoryGrid"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     LESSON DETAIL PAGE — SUB-LESSONS LIST
+════════════════════════════════════════════ -->
+<div id="lessonDetailPage" class="page">
+    <div class="lesson-header">
+        <button class="back-circle" onclick="showPage('coursePage')">←</button>
+        <div class="progress-container">
+            <div class="progress-fill" id="detailProgressFill" style="width:0%"></div>
+        </div>
+    </div>
+
+    <h1 id="detailTitle">Family</h1>
+
+    <div class="lesson-stats">
+        <div>💬 <span id="wordCount">0</span> words</div>
+        <div>📄 <span id="phraseCount">0</span> phrases</div>
+        <div>⏰ 30 min</div>
+    </div>
+
+    <hr>
+
+    <h3>LEARN THE VOCABULARY</h3>
+    <h2>Pick a lesson to start</h2>
+
+    <div id="lessonList"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     VOCAB PAGE — WORDS FOR A LESSON
+════════════════════════════════════════════ -->
+<div id="vocabPage" class="page">
+    <div class="lesson-header">
+        <button class="back-circle" onclick="showPage('lessonDetailPage')">←</button>
+        <h2 id="vocabTitle" class="vocab-page-title">Meeting People</h2>
+    </div>
+
+    <div class="vocab-mode-tabs">
+        <button class="mode-tab active-tab" onclick="switchMode('words', this)">📖 Words</button>
+        <button class="mode-tab" onclick="switchMode('speaking', this)">🗣️ Phrases</button>
+        <button class="mode-tab" onclick="switchMode('quiz', this)">🧠 Quiz</button>
+    </div>
+
+    <div id="vocabContent"></div>
+
+    <div class="vocab-actions">
+        <button class="action-btn" onclick="speakAll()">🔊 Hear All</button>
+        <button class="action-btn" onclick="openResults()">📊 Results</button>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     GRAMMAR PAGE
+════════════════════════════════════════════ -->
+<div id="grammarPage" class="page">
+    <div class="vocab-top">
+        <button class="close-btn" onclick="showPage('lessonDetailPage')">✕</button>
+    </div>
+    <div class="grammar-card">
+        <h1 id="verbTitle">Verb</h1>
+        <p class="verb-meaning">🇬🇧 <span id="verbMeaning">to be</span></p>
+
+        <div class="tense-switch">
+            <button class="tense-btn" onclick="changeTense('past',this)">Past</button>
+            <button class="tense-btn active-tense" onclick="changeTense('present',this)">Present</button>
+            <button class="tense-btn" onclick="changeTense('future',this)">Future</button>
         </div>
 
-        <div class="card">
-            <h3>🇰🇷 Korean</h3>
-            <p>Belajar Hangul dan percakapan sehari-hari</p>
-            <button>Mulai</button>
-        </div>
-    </section>
+        <h3 class="tap-title">TAP TO HEAR CONJUGATIONS 🔊</h3>
+        <div id="conjugationList"></div>
+    </div>
+</div>
 
+<!-- ═══════════════════════════════════════════
+     RESULTS PAGE
+════════════════════════════════════════════ -->
+<div id="resultsPage" class="page">
+    <div class="lesson-header">
+        <button class="back-circle" onclick="showPage('coursePage')">←</button>
+        <h2 style="margin:0; font-size:22px;">Learning Results</h2>
+    </div>
+
+    <div class="results-stats">
+        <div class="result-box">
+            <h2 id="totalWords">0</h2>
+            <p>Words Seen</p>
+        </div>
+        <div class="result-box">
+            <h2 id="totalPhrases">0</h2>
+            <p>Phrases</p>
+        </div>
+        <div class="result-box">
+            <h2 id="totalProgress">0%</h2>
+            <p>Progress</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">Vocabulary Reviewed</h2>
+    <div id="learnedList"></div>
+
+    <button class="start-btn" onclick="showPage('coursePage')">Back to Course</button>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
